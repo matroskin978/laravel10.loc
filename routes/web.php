@@ -14,14 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-//    dump('Hello, world');
-//    dd('Hello, world');
-//    dump(config('app.locale'));
-//    dump(config('database.connections.mysql.database'));
-//    dump(config('app.env'));
-    dump(config('custom.custom_test', 'test'));
-
-
+    /** @var \Illuminate\Cache\CacheManager $cache */
+//    $cache = app()->make('cache');
+//    $cache->put('test', 123);
+//    dd($cache->get('test', 'default'));
+//    $cache = app('cache');
+//    $cache = cache();
+//    dd($cache->get('test', 'default'));
+//    dd(\Illuminate\Support\Facades\Cache::get('test', 222));
+    $cache = \Illuminate\Support\Facades\App::make('cache');
+    dd($cache);
 
     return view('welcome');
 });
