@@ -13,61 +13,41 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
-
-/*Route::get('/', function () {
-    return '<h1>Hello world!</h1>';
-});*/
-/*Route::get('/', function () {
-    return view('hi', ['title' => 'Main page']);
 });*/
 
-//Route::view('/', 'test.hi', ['title' => 'Main page']);
+Route::get('/', [\App\Http\Controllers\MainController::class, 'index']);
 
-//Route::get('/posts/{id?}', function ($id = 1) {
-//    return "Post ID: {$id}";
-//});
-//
-//Route::get('/posts/{id}/comments/{comment}', function ($id, $comment_id) {
-//    return "Post ID: {$id}, Comment ID: {$comment_id}";
-//});
-
-/*Route::get('/posts/{id}', function ($id) {
-    return "Post ID: {$id}";
-})->where(['id' => '[0-9]+']);*/
-
-Route::get('/posts', function () {
-    return "Posts page";
+/*Route::get('/admin', function () {
+    return 'Admin main page';
 });
 
-Route::get('/posts/{id}', function ($id) {
-    return "Post ID: {$id}";
+Route::get('/admin/posts', function () {
+    return 'Admin posts page';
 });
 
-Route::get('/posts/contact', function () {
-    return "Post CONTACT";
+Route::get('/admin/posts/{id}', function ($id) {
+    return "Admin post {$id}";
+});*/
+
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return 'Admin main page';
+    });
+
+    Route::get('/posts', function () {
+        return 'Admin posts page';
+    });
+
+    Route::get('/posts/{id}', function ($id) {
+        return "Admin post {$id}";
+    });
 });
 
-Route::get('/posts/{slug}', function ($slug) {
-    return "Post SLUG: {$slug}";
-});
-
-Route::get('/search/{search}', function ($search) {
-    return "Searching: {$search}";
-})->where(['search' => '.*']);
-
-Route::post('posts', function () {
-    return 'Store post';
-})->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
-
-/*Route::match(['get', 'post'], '/get-post', function () {
-    return 'Hello from GET|POST';
-})->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);*/
-
-Route::any('/get-post', function () {
-    return 'Hello from ANY METHOD';
-})->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
-
-Route::redirect('/here', '/get-post', 301);
+/*Route::fallback(function () {
+    abort(404, '404 - Page not found!!!');
+    return response()->json(['answer' => '404 - Page not found'],404);
+    return response('404 - Page not found', 404);
+    return '404 - Page not found';
+});*/

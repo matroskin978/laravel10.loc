@@ -5,11 +5,13 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= $title ?? 'Test' ?></title>
+    <title>Page not found</title>
 </head>
 <body>
 
-<h1>Hello world!!!</h1>
+<?php //dump($exception->getMessage()) ?>
+<h1>{{ $exception->getMessage() }}</h1>
+
 
 </body>
 </html>
