@@ -5,13 +5,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    {{--    <title>{{ $title ?? 'Default title from layout' }}</title>--}}
     <title>@yield('title', 'Default title')</title>
-    {{--@isset($description)
-        <meta name="description" content="{{ $description }}">
-    @endisset--}}
     @yield('description')
+{{--    <link rel="stylesheet" href="{{ asset('bootstrap/bootstrap.css') }}">--}}
+{{--    <link rel="stylesheet" href="{{ asset('main.css') }}">--}}
+    @vite(['resources/bootstrap/bootstrap.css', 'resources/css/main.css', 'resources/bootstrap/bootstrap.bundle.js'])
 </head>
 <body>
 
@@ -44,6 +42,6 @@
 
 @include('layouts.incs.footer', ['test' => 'Hello from layout'])
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{{--<script src="{{  asset('bootstrap/bootstrap.bundle.js') }}"></script>--}}
 </body>
 </html>
