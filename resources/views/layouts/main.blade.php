@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Default title')</title>
     @yield('description')
-{{--    <link rel="stylesheet" href="{{ asset('bootstrap/bootstrap.css') }}">--}}
-{{--    <link rel="stylesheet" href="{{ asset('main.css') }}">--}}
-    @vite(['resources/bootstrap/bootstrap.css', 'resources/css/main.css', 'resources/bootstrap/bootstrap.bundle.js'])
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/main.css') }}">
+{{--    @vite(['resources/bootstrap/bootstrap.css', 'resources/css/main.css', 'resources/bootstrap/bootstrap.bundle.js'])--}}
 </head>
 <body>
 
