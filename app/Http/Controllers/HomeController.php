@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\View;
@@ -11,43 +12,52 @@ class HomeController extends Controller
 
     public function index(): \Illuminate\View\View
     {
-//        $users = DB::select('select id, name, email from users where id > ? and name != ?', [1, 'Kleopatra']);
-        $data = [
-            'id' => 1,
-            'name' => 'Kleopatra',
-        ];
-        $users = DB::select('select id, name, email from users where id > :id and name != :name', $data);
+        $users = [];
 
-//        $cnt = DB::select('select count(*) as cnt from users');
-        $cnt = DB::scalar('select count(*) as cnt from users');
-        dump($cnt);
+//        $users = DB::table('users')->get(['id', 'name', 'email']);
+//        $user = DB::table('users')->where('id', '>', 3)->first();
+//        $users = DB::table('users')->where('id', '>', 3)->get();
+//        $users2 = DB::table('users')->where('id', '>', 3)->value('name');
 
-//        dump(DB::insert("insert into users (name, email, password) VALUES (?, ?, ?)", ['d\'Arc', 'darc@mail.com', 555]));
+//        $users = DB::table('users')->where('id', '<', 10)->orderBy('name', 'desc')->get();
+//        $users = DB::table('users')->where('id', '<', 10)->orderByDesc('name')->get();
 
-//        dump(DB::update("update users set avatar = ? where id = ?", ['image.jpg', 5]));
-//        dump(DB::update("update users set created_at = NOW(), updated = ?", [date('Y-m-d H:i:s')]));
+//        $users2 = DB::table('users')->find(3, ['id', 'name', 'email']);
+//        $users2 = DB::table('users')->pluck('name', 'email');
+//        dump($users2);
 
-//        dump(DB::delete('delete from users where id = ?', [5]));
+//        $cities = DB::table('city')->get();
+        /*DB::table('city')->orderBy('ID')->chunk(100, function (Collection $cities) {
+            foreach ($cities as $city) {
+                if ($city->Name == 'Salvador') {
+                    return false;
+                }
+            }
+        });*/
 
-        /*try {
-            DB::transaction(function () {
-                DB::insert("insert into users (name, email, password) VALUES (?, ?, ?)", ['d\'Arc', 'darc@mail.com', 555]);
-                DB::insert("insert into users (name, email, password) VALUES (?, ?, ?)", ['d\'Arc', 'darc2@mail.com', 555]);
-            });
-        } catch (\Exception $e) {
-            dump($e->getMessage());
-        }*/
+//        $cities = DB::table('city')->select(['ID', 'Name'])->limit(10)->get();
+        /*$cities = DB::table('city')
+            ->where('ID', '>', 3)
+            ->where('ID', '<', 10)
+            ->get();*/
+        /*$cities = DB::table('city')
+            ->where([['ID', '>', 3], ['ID', '<', 10]])
+            ->orWhere('ID', '<', 20)
+            ->get();*/
 
-        try {
-            DB::beginTransaction();
-            DB::insert("insert into users (name, email, password) VALUES (?, ?, ?)", ['d\'Arc', 'darc@mail.com', 555]);
-            DB::insert("insert into users (name, email, password) VALUES (?, ?, ?)", ['d\'Arc', 'darc2@mail.com', 555]);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            dump($e->getMessage());
-        }
+        /*$cities = DB::table('city')
+            ->whereRaw('(ID between ? and ? and Name != ?) or (ID = ?)', [2, 10, 'Qandahar', 1])
+            ->get();*/
 
+//        $cities = DB::table('city')->count();
+//        $cities = DB::table('city')->max('Population');
+//        $cities = DB::table('city')->min('Population');
+
+        $cities = DB::table('city')
+            ->orderBy('Population', 'desc')
+            ->first('Population');
+
+        dump($cities->Population);
 
         return view('home.index', compact('users'));
     }
