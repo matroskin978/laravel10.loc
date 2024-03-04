@@ -13,51 +13,73 @@ class HomeController extends Controller
     public function index(): \Illuminate\View\View
     {
         $users = [];
+        $cities = [];
 
-//        $users = DB::table('users')->get(['id', 'name', 'email']);
-//        $user = DB::table('users')->where('id', '>', 3)->first();
-//        $users = DB::table('users')->where('id', '>', 3)->get();
-//        $users2 = DB::table('users')->where('id', '>', 3)->value('name');
-
-//        $users = DB::table('users')->where('id', '<', 10)->orderBy('name', 'desc')->get();
-//        $users = DB::table('users')->where('id', '<', 10)->orderByDesc('name')->get();
-
-//        $users2 = DB::table('users')->find(3, ['id', 'name', 'email']);
-//        $users2 = DB::table('users')->pluck('name', 'email');
-//        dump($users2);
-
-//        $cities = DB::table('city')->get();
-        /*DB::table('city')->orderBy('ID')->chunk(100, function (Collection $cities) {
-            foreach ($cities as $city) {
-                if ($city->Name == 'Salvador') {
-                    return false;
-                }
-            }
-        });*/
-
-//        $cities = DB::table('city')->select(['ID', 'Name'])->limit(10)->get();
-        /*$cities = DB::table('city')
-            ->where('ID', '>', 3)
-            ->where('ID', '<', 10)
-            ->get();*/
-        /*$cities = DB::table('city')
-            ->where([['ID', '>', 3], ['ID', '<', 10]])
-            ->orWhere('ID', '<', 20)
-            ->get();*/
+//        $cities = DB::table('city')->select(['ID', 'Name'])->whereIn('ID', [1, 2, 3])->get();
+//        $cities = DB::table('city')->where('Name', 'like', 'am%')->get();
+//        $cities = DB::table('users')->whereDate('created_at', '>', '2024-02-01')->get();
 
         /*$cities = DB::table('city')
-            ->whereRaw('(ID between ? and ? and Name != ?) or (ID = ?)', [2, 10, 'Qandahar', 1])
+            ->select('city.ID', 'city.Name', 'city.CountryCode', 'country.Name as country_name')
+            ->leftJoin('country', 'city.CountryCode', '=', 'country.Code')
+            ->limit(10)
+            ->offset(10)
             ->get();*/
 
-//        $cities = DB::table('city')->count();
-//        $cities = DB::table('city')->max('Population');
-//        $cities = DB::table('city')->min('Population');
+        // ONLY_FULL_GROUP_BY
+//        dump(DB::select('select @@sql_mode'));
+//        DB::statement("set sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'");
+//        dump(DB::select('select @@sql_mode'));
+//        config()->set('database.connections.mysql.strict', false);
+//        DB::reconnect();
+        /*        $cities = DB::table('city')
+                    ->selectRaw('sum(Population) as s_p, CountryCode, min(Name)')
+                    ->groupBy('CountryCode')
+                    ->having('s_p', '>', 10_000_000)
+                    ->get();*/
+//        config()->set('database.connections.mysql.strict', true);
+//        DB::reconnect();
 
-        $cities = DB::table('city')
-            ->orderBy('Population', 'desc')
-            ->first('Population');
+//        dump($cities);
 
-        dump($cities->Population);
+        /*dump(
+            DB::table('users')->insertOrIgnore([
+                [
+                    'name' => 'User 2',
+                    'email' => 'user2@mail.com',
+                    'password' => '222',
+                ],
+                [
+                    'name' => 'User 4',
+                    'email' => 'user4@mail.com',
+                    'password' => '444',
+                ]
+            ])
+        );*/
+
+        /*dump(DB::table('users')->insertGetId(
+            [
+                'name' => 'User 5',
+                'email' => 'user5@mail.com',
+                'password' => '555',
+            ])
+        );*/
+
+        /*dump(
+            DB::table('users')
+                ->where('id', '=', 16)
+                ->update(['name' => 'Darc', 'email' => 'darc_new@mail.com'])
+        );*/
+
+        /*dump(
+            DB::table('users')
+                ->updateOrInsert(
+                    ['email' => 'darc_new2@mail.com'],
+                    ['name' => 'Darc New 2', 'password' => 'new_password2']
+                )
+        );*/
+
+        dump(DB::table('users')->where('id', '>', 23)->delete());
 
         return view('home.index', compact('users'));
     }
