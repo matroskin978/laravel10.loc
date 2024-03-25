@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('countries', function () {
+    return \App\Models\Country::query()
+        ->where('Population', '>', 100_000_000)
+        ->orderBy('Population', 'desc')
+        ->limit(5)
+        ->get(['Code', 'Name', 'Population']);
+});
