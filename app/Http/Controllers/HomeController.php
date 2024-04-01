@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\Language;
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -18,38 +19,70 @@ class HomeController extends Controller
         $users = [];
         $cities = [];
 
-//        $posts = Post::all()->toArray();
-//        dump($posts);
+//        $country = Country::query()->find('AFG');
+//        dump($country);
+//        dump($country->toArray());
 
-//        $post = Post::query()->first()->toArray();
-//        dump($post);
+//        dump('Count: ' . Country::query()->count());
+//        dump('Count: ' . Country::query()->where('Population', '>', 1_000_000)->count());
+//        dump('Max: ' . Country::query()->max('Population'));
+//        dump('Min: ' . Country::query()->min('Population'));
+//        dump('Avg: ' . Country::query()->avg('Population'));
 
-//        $post = Post::query()->find(2, ['id', 'title', 'slug'])->toArray();
-//        dump($post);
+        /*$country = Country::query()->find('AFG2');
+        if (!$country) {
+            abort(404);
+        }*/
+//        $country = Country::query()->findOrFail('AFG2');
+//        dump($country);
 
-//        $countries = Country::all(['Code', 'Name', 'Population'])->toArray();
-//        dump($countries);
+        /*$post = new Post();
+        $post->title = 'Post 5';
+        $post->content = 'Post 5 content';
+        $post->category_id = rand(1, 2);
+        dump($post->save());
+        dump($post->id);*/
 
-//        $countries = Country::query()
-//            ->where('Population', '>', 100_000_000)
-//            ->orderBy('Population', 'desc')
-//            ->limit(5)
-//            ->get(['Code', 'Name', 'Population']);
-//        dump($countries);
-//        return $countries->toJson();
-//    return response()->json($countries);
+        /*dump(Post::query()->create([
+             'title' => 'Post 7',
+             'content' => 'Post 7 content',
+             'category_id' => rand(1, 2),
+             'status' => 0,
+        ]));*/
 
-//        $country = Country::query()->first();
-        $country = Country::query()->find('AFG');
-        dump($country->toArray());
-//        dump($country->Name);
-//        $lang = Language::query()->first();
-//        dump($lang->toArray());
-//        dump($lang);
-//        dump($lang->id);
-//        dump($lang->title);
+//        $post = Post::query()->find(2);
+//        dump($post->delete());
+//        dump(Post::destroy(3));
+        dump(Post::destroy(7, 9));
 
         return view('home.index', compact('users'));
+    }
+
+    public function store(Request $request)
+    {
+//        var_dump($request->title);
+//        var_dump($request->all());
+        Post::query()->create($request->all());
+        return $request->all();
+    }
+
+    public function update(Request $request)
+    {
+        /*$post = Post::query()->find($request->id);
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->category_id = $request->category_id;
+        $post->status = $request->status;
+        $post->save();*/
+
+//        $post = Post::query()->findOrFail($request->id);
+//        $post->update($request->all());
+        var_dump(
+            Post::query()
+                ->where('id', $request->id)
+                ->update($request->all())
+        );
+        return 'OK';
     }
 
     public function test(): \Illuminate\View\View

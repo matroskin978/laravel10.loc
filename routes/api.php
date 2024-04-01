@@ -23,5 +23,5 @@ Route::get('countries', function () {
         ->where('Population', '>', 100_000_000)
         ->orderBy('Population', 'desc')
         ->limit(5)
-        ->get(['Code', 'Name', 'Population']);
+        ->get(['Code', 'Name', 'Population', 'Region']);
 });

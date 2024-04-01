@@ -15,4 +15,6 @@ class Country extends Model
 
     public $incrementing = false;
 
+    protected $hidden = ['Region', 'SurfaceArea'];
+
 }
