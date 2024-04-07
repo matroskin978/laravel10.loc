@@ -16,46 +16,51 @@ class HomeController extends Controller
 
     public function index()
     {
-        $users = [];
-        $cities = [];
+        $posts = Post::query()->get();
+        dump($posts);
 
-//        $country = Country::query()->find('AFG');
-//        dump($country);
-//        dump($country->toArray());
+        $posts2 = DB::table('posts')->get();
+        dump($posts2);
 
-//        dump('Count: ' . Country::query()->count());
-//        dump('Count: ' . Country::query()->where('Population', '>', 1_000_000)->count());
-//        dump('Max: ' . Country::query()->max('Population'));
-//        dump('Min: ' . Country::query()->min('Population'));
-//        dump('Avg: ' . Country::query()->avg('Population'));
+        $posts3 = DB::select('select * from posts');
+        dump($posts3);
 
-        /*$country = Country::query()->find('AFG2');
-        if (!$country) {
-            abort(404);
-        }*/
-//        $country = Country::query()->findOrFail('AFG2');
-//        dump($country);
+//        $data = [1, 2, 3, 4, 5];
+//        $data = collect($data);
+//        dump($data->toArray());
 
-        /*$post = new Post();
-        $post->title = 'Post 5';
-        $post->content = 'Post 5 content';
-        $post->category_id = rand(1, 2);
-        dump($post->save());
-        dump($post->id);*/
+        /*$products = collect([
+            ['title' => 'Product 1', 'price' => 10],
+            ['title' => 'Product 2', 'price' => 15],
+            ['title' => 'Product 3', 'price' => 10],
+            ['title' => 'Product 4', 'price' => 20],
+            ['title' => 'Product 5', 'price' => 20],
+        ]);
+        dump($products);
+        dump($products->avg('price'));
+        dump($products->max('price'));
+        dump($products->min('price'));
+        dump($products->sum('price'));
 
-        /*dump(Post::query()->create([
-             'title' => 'Post 7',
-             'content' => 'Post 7 content',
-             'category_id' => rand(1, 2),
-             'status' => 0,
-        ]));*/
+        $filtered = $products->filter(function ($value, $key) {
+            return $value['price'] > 10;
+        });
+        dump($filtered);*/
 
-//        $post = Post::query()->find(2);
-//        dump($post->delete());
-//        dump(Post::destroy(3));
-        dump(Post::destroy(7, 9));
+        $countries = Country::query()->limit(10)->get(['Name', 'Population', 'Continent']);
+        dump($countries->toArray());
+        $filtered = $countries->filter(function ($value, $key) {
+            return $value['Population'] > 1_000_000;
+        });
+        dump($filtered->toArray());
+        dump($countries->max('Population'));
+        dump($countries->min('Population'));
 
-        return view('home.index', compact('users'));
+        dump($countries->countBy(function (Country $country) {
+            return $country->Continent;
+        }));
+
+        return view('home.index', compact('posts', 'posts2', 'posts3'));
     }
 
     public function store(Request $request)
