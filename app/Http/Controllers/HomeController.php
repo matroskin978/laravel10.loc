@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Country;
 use App\Models\Language;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -17,36 +18,28 @@ class HomeController extends Controller
 
     public function index()
     {
-        /*$category = Category::query()->find(1);
-        dump($category->toArray());
-        $posts = $category->posts;
-        dump($posts->toArray());*/
 
-        /*$post = Post::query()->find(3);
-        dump($post->toArray());
-        dump($post->category->toArray());*/
+        /*$post = Post::query()->find(1);
+        $tags = $post->tags;
+        dump($tags);
 
-//        $categories = Category::all();
-        /*$categories = Category::with('posts')->get();
-        dump($categories->toArray());
+        foreach ($tags as $tag) {
+            echo "{$tag->title} | {$tag->ts->created_at}<br>";
+        }*/
 
-        foreach ($categories as $category) {
-            echo "{$category->title}<br>";
-            foreach ($category->posts as $post) {
-                echo "{$post->title}<br>";
+//        $tag = Tag::query()->find(5);
+//        dump($tag->posts);
+
+        /*$posts = Post::with('tags')->get();
+        foreach ($posts as $post) {
+            echo "{$post->title}<br>";
+            foreach ($post->tags as $tag) {
+                echo "{$tag->title}<br>";
             }
-            echo '<hr>';
-        }*/
-        /*$categories = Category::query()->withCount('posts')->get();
-        dump($categories);
-
-        foreach ($categories as $category) {
-            echo "{$category->title} ({$category->posts_count})<br>";
+            echo "<hr>";
         }*/
 
-        $category = Category::query()->find(1);
-//        dump($category->posts()->where('id', '<>', 4)->orderBy('id', 'desc')->limit(1)->get()->toArray());
-        dump($category->posts->where('id', '<>', 4));
+        dump(Category::query()->find(1)->latestActivePost);
 
         return view('home.index');
     }
