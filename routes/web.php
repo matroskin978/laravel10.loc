@@ -25,3 +25,6 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact')
 
 Route::post('/store', [HomeController::class, 'store'])->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
 Route::post('/update', [HomeController::class, 'update'])->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+
+Route::get('/posts/create', [\App\Http\Controllers\PostController::class, 'create'])->name('posts.create');
+Route::post('/posts', [\App\Http\Controllers\PostController::class, 'store'])->name('posts.store');
